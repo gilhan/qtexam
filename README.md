@@ -1,0 +1,2 @@
+# qtexam
+QT(GUI) Programming
