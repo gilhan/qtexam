@@ -41,5 +41,15 @@ void Widget::on_pushButton_clicked()
 
 void Widget::on_pushButton_2_clicked()
 {
-    this->close();
+    ui->radioButton->setChecked(false);
+    ui->radioButton_2->setChecked(false);
+    ui->radioButton_3->setChecked(false);
+    ui->radioButton_4->setChecked(false);
+    ui->radioButton_5->setChecked(false);
+    ui->checkBox->setChecked(false);
+    ui->checkBox_2->setChecked(false);
+    ui->checkBox_3->setChecked(false);
+    ui->checkBox_4->setChecked(false);
+    ui->checkBox_5->setChecked(false);
+    ui->lineEdit->setText("");
 }
