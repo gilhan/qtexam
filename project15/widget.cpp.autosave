@@ -1,0 +1,18 @@
+#include "widget.h"
+#include "ui_widget.h"
+
+Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
+{
+    ui->setupUi(this);
+    QPixmap pix("hello.png");
+    scene.addPixmap(pix);
+    ui->graphicsView->setScene(&scene);
+    ui->graphicsView->show();
+}
+
+Widget::~Widget()
+{
+    delete ui;
+}
