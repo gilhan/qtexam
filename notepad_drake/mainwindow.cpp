@@ -1,0 +1,75 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    statuslabel = new QLabel("Start");
+    ui->statusBar->addWidget(statuslabel);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_actionSelect_Directory_triggered()
+{
+    dir = QFileDialog::getExistingDirectory();
+    dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+    ui->listWidget->clear();
+    list = dir.entryInfoList();
+    for (int i = 0; i < list.size(); ++i) {
+        QFileInfo fileInfo = list.at(i);
+        ui->listWidget->addItem(QString("%1").arg(fileInfo.fileName()));
+    }
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString path, filename;
+    filename = QString("%1").arg(list.at(ui->listWidget->currentIndex().row()).absoluteFilePath());
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    ui->plainTextEdit->clear();
+    ui->plainTextEdit->appendPlainText(file.readAll());
+    file.close();
+    ui->mainToolBar->setStatusTip("File Opened");
+    QMessageBox msgbox;
+    msgbox.setText("File Opened");
+    msgbox.exec();
+}
+void MainWindow::on_actionSave_triggered()
+{
+    QString path, filename;
+    filename = QString("%1").arg(list.at(ui->listWidget->currentIndex().row()).absoluteFilePath());
+    QFile file(filename + ".text");
+    QByteArray bytearray = ui->plainTextEdit->toPlainText().toUtf8().left(ui->plainTextEdit->toPlainText().length());
+    file.open(QIODevice::WriteOnly);
+    file.write(bytearray);
+    file.close();
+    ui->mainToolBar->setStatusTip("File Saved");
+    QMessageBox msgbox;
+
+    msgbox.setText("File Saved");
+    msgbox.exec();
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+    this->close();
+}
+
+void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
+{
+    QString path, filename;
+    filename = QString("%1").arg(list.at(index.row()).absoluteFilePath());
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    ui->plainTextEdit->clear();
+    ui->plainTextEdit->appendPlainText(file.readAll());
+    file.close();
+    statuslabel->setText("File Opened");
+}
