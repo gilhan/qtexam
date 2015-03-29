@@ -17,11 +17,13 @@ public:
     ~Widget();
 
 private slots:
-    void on_pushButton_3_clicked();
-
-    void on_pushButton_clicked();
-
     void on_calendarWidget_clicked(const QDate &date);
+
+    void on_pbOpen_clicked();
+
+    void on_pbExit_clicked();
+
+    void on_pbSave_clicked();
 
 private:
     Ui::Widget *ui;
